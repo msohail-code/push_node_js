@@ -1,12 +1,47 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>This is first HTML Here</title>
+	<title>Web Push</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
 <body>
-    <center>
-        <h1>This is working</h1>
-    </center>
+	<center>
+	    <button onclick="subscribe()">Subscribe</button> <br>
+	    <button onclick="send()">Send Notification</button> <br>
+
+	   <span id="endpoint" style="width:400px;"> </span>
+	   <span id="auth" style="width:400px;">   </span>
+	   <br><br>
+	   <div id="demo"></div>
+	</center>
+
+	<script type="text/javascript">
+		addEventListener('load', async() => {
+			let sw = await navigator.serviceWorker.register('./sw.js')
+			console.log(sw)
+		})
+
+		window.onload = async function subscribe() {
+			let sw = await navigator.serviceWorker.ready;
+			let push = await sw.pushManager.subscribe({
+				userVisibleOnly: true,
+				applicationServerKey: 'BBU8pm34zV90s6KGE3bxmev8k5sz-pEji9WMleu2BIT6MgBTomOJRpliHmNSDPOzrOTyPc_BrN_qxYxppMW0EaQ'
+			})
+			console.log(JSON.stringify(push));
+            var enpoint = JSON.stringify(push);
+
+            document.getElementById("endpoint").innerHTML  = enpoint + "<br>";
+
+
+		}
+
+
+
+
+
+
+	</script>
+	<script src="push.js"></script>
 </body>
 </html>
